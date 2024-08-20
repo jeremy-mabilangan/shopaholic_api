@@ -1,1 +1,1 @@
-# shopaholic_api
+# Shopaholic API
