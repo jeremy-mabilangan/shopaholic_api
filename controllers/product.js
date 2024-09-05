@@ -3,7 +3,7 @@ const Product = require("../models/product");
 /**
  * Controller for adding a product.
  */
-exports.postProduct = (req, res, next) => {
+exports.postProduct = (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const price = req.body.price;
@@ -25,7 +25,7 @@ exports.postProduct = (req, res, next) => {
 /**
  * Controller for fetching all products.
  */
-exports.getProducts = (req, res, next) => {
+exports.getProducts = (req, res) => {
   Product.getAll()
     .then((products) => {
       res.send({ status: 200, products });
@@ -38,12 +38,11 @@ exports.getProducts = (req, res, next) => {
 /**
  * Controller for fetching one product using product id.
  */
-exports.getProductById = (req, res, next) => {
+exports.getProductById = (req, res) => {
   const { productId } = req.params;
-
   Product.getById(productId)
-    .then((products) => {
-      res.send({ status: 200, products });
+    .then((product) => {
+      res.send({ status: 200, product });
     })
     .catch(() => {
       res.send({ status: 400 });
@@ -53,7 +52,7 @@ exports.getProductById = (req, res, next) => {
 /**
  * Controller for deleting one product using product id.
  */
-exports.deleteProductById = (req, res, next) => {
+exports.deleteProductById = (req, res) => {
   const productId = req.body.id;
 
   Product.deleteById(productId)
