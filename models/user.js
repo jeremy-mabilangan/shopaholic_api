@@ -16,7 +16,7 @@ class User {
   }
 
   /**
-   * Model of saving a user.
+   * Model of saving user.
    */
   save() {
     const db = database();
@@ -25,10 +25,10 @@ class User {
       .collection("users")
       .insertOne(this)
       .then((result) => {
-        console.log(result);
+        console.log("user save => ", result);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("user save error => ", err);
       });
   }
 
@@ -37,15 +37,16 @@ class User {
    */
   static getById(userId) {
     const db = database();
+
     return db
       .collection("users")
       .findOne({ _id: new ObjectId(userId) })
       .then((user) => {
-        console.log(user);
+        console.log("user getById => ", user);
         return user;
       })
       .catch((err) => {
-        console.log(err);
+        console.log("user getById error => ", err);
       });
   }
 }

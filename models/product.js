@@ -44,10 +44,10 @@ class Product {
 
     return dbOp
       .then((result) => {
-        console.log(result);
+        console.log("product save/update => ", result);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("product save/update error => ", err);
       });
   }
 
@@ -61,11 +61,11 @@ class Product {
       .find()
       .toArray()
       .then((products) => {
-        console.log(products);
+        console.log("product getAll => ", products);
         return products;
       })
       .catch((err) => {
-        console.log(err);
+        console.log("product getAll error => ", err);
       });
   }
 
@@ -79,11 +79,11 @@ class Product {
       .find({ _id: new ObjectId(productId) })
       .next()
       .then((product) => {
-        console.log(product);
+        console.log("product getById => ", product);
         return product;
       })
       .catch((err) => {
-        console.log(err);
+        console.log("product getById error => ", err);
       });
   }
 
@@ -96,10 +96,10 @@ class Product {
       .collection("products")
       .deleteOne({ _id: new ObjectId(productId) })
       .then((result) => {
-        console.log(result);
+        console.log("product deleteById => ", result);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("product deleteById error => ", err);
       });
   }
 }

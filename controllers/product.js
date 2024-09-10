@@ -8,9 +8,16 @@ exports.postProduct = (req, res) => {
   const description = req.body.description;
   const price = req.body.price;
   const imageUrl = req.body.imageUrl;
-  const id = req.body.id || "";
+  const id = req.body.id || null;
 
-  const product = new Product(name, description, price, imageUrl, id);
+  const product = new Product(
+    name,
+    description,
+    price,
+    imageUrl,
+    id,
+    req.user._id
+  );
 
   product
     .save()

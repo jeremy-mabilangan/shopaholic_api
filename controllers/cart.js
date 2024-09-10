@@ -1,5 +1,4 @@
 const Cart = require("../models/cart");
-const Product = require("../models/product");
 
 /**
  * Controller for add to cart.
@@ -9,18 +8,12 @@ exports.postCart = (req, res) => {
   const userId = req.body.user_id;
   const cart = new Cart(userId);
 
-  Product.getById(productId)
-    .then((product) => {
-      cart
-        .addToCart(product._id)
-        .then(() => {
-          res.json({ status: 200, message: "Added To Cart Successfully" });
-        })
-        .catch(() => {
-          res.json({ status: 400 });
-        });
+  cart
+    .addToCart(productId)
+    .then(() => {
+      res.json({ status: 200, message: "Added to cart successfully" });
     })
     .catch(() => {
-      res.json({ status: 400, message: "Product does not exist." });
+      res.json({ status: 400, message: "Something went wrong" });
     });
 };
