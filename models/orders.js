@@ -41,6 +41,9 @@ const ordersSchema = new Schema({
   ],
 });
 
+/**
+ * Create an order
+ */
 ordersSchema.static("createOrder", function (userId) {
   // Get user by user Id
   return this.model("User")

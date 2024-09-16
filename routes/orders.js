@@ -6,7 +6,7 @@ const OrdersControllers = require("../controllers/orders");
 /**
  * Create order
  *
- * /order => POST method
+ * /orders => POST method
  */
 router.post("/", OrdersControllers.postOrder);
 

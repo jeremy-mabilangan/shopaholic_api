@@ -1,20 +1,45 @@
 const User = require("../models/users");
 
 /**
- * Controller for adding a user.
+ * Controller for creating user.
  */
 exports.postUser = (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
-  const user = new User({ name, email });
+  const password = req.body.password;
+  const user = new User({ name, email, password });
 
   user
-    .save()
-    .then(() => {
-      res.json({ status: 200, message: "Added User Successfully" });
+    .createUser()
+    .then((result) => {
+      if (result.status === false) {
+        res.json({ status: 400, message: result.message });
+      } else {
+        res.json({ status: 200, message: "Added User Successfully" });
+      }
     })
     .catch(() => {
       res.json({ status: 400, message: "Failed to add user" });
+    });
+};
+
+/**
+ * Controller for logging-in user.
+ */
+exports.postLoginUser = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.loginUser(email, password)
+    .then((result) => {
+      if (result.status === false) {
+        res.json({ status: 400, message: result.message });
+      } else {
+        res.json({ status: 200, ...result._doc });
+      }
+    })
+    .catch(() => {
+      res.json({ status: 400, message: "Failed to login" });
     });
 };
 

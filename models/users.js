@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const { Schema, model } = mongoose;
 
 const usersSchema = new Schema({
@@ -7,6 +8,10 @@ const usersSchema = new Schema({
     required: true,
   },
   email: {
+    type: String,
+    required: true,
+  },
+  password: {
     type: String,
     required: true,
   },
@@ -25,6 +30,80 @@ const usersSchema = new Schema({
       },
     ],
   },
+});
+
+/**
+ * Create user
+ */
+usersSchema.methods.createUser = function () {
+  const name = this.name;
+  const email = this.email;
+  const password = this.password;
+
+  return this.model("User")
+    .findOne({ email: email })
+    .then((user) => {
+      console.log("userSchema.methods.createUser => ", user);
+
+      // Check if email is not existing
+      if (!user) {
+        return bcrypt.hash(password, 12).then((hashedPassword) => {
+          const payload = {
+            name,
+            email,
+            password: hashedPassword,
+            cart: null,
+          };
+
+          return this.model("User").create(payload);
+        });
+      } else {
+        // Return a message that says email is already taken.
+        return {
+          status: false,
+          message: "Email has already been taken.",
+        };
+      }
+    })
+    .catch((err) => {
+      console.log("userSchema.methods.createUser error => ", err);
+    });
+};
+
+/**
+ * Login user
+ */
+usersSchema.static("loginUser", function (email, password) {
+  return this.model("User")
+    .findOne({ email: email })
+    .then((user) => {
+      console.log("userSchema.methods.loginUser => ", user);
+
+      // Check if email is existing
+      if (user) {
+        return bcrypt.compare(password, user.password).then((result) => {
+          // Check if password is correct
+          if (result) {
+            return user;
+          } else {
+            // Return a message that says password is incorrect.
+            return {
+              status: false,
+              message: "Password is incorrect.",
+            };
+          }
+        });
+      } else {
+        // Return a message that says user doesn't exist.
+        return {
+          status: false,
+          message: "User doesn't exist.",
+        };
+      }
+    })
+    .catch((err) => {
+      console.log("userSchema.methods.loginUser error => ", err);
+    });
 });
 
 /**

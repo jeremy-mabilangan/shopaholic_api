@@ -8,7 +8,7 @@ exports.postOrder = (req, res) => {
 
   Order.createOrder(userId)
     .then((result) => {
-      if (!result.status) {
+      if (result.status === false) {
         res.json({ status: 400, message: result.message });
       } else {
         res.json({ status: 200, message: "Order Created!" });
