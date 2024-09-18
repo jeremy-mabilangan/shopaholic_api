@@ -11,12 +11,8 @@ exports.postUser = (req, res) => {
 
   user
     .createUser()
-    .then((result) => {
-      if (result.status === false) {
-        res.json({ status: 400, message: result.message });
-      } else {
-        res.json({ status: 200, message: "Added User Successfully" });
-      }
+    .then(() => {
+      res.json({ status: 201, message: "Added User Successfully" });
     })
     .catch(() => {
       res.json({ status: 400, message: "Failed to add user" });
@@ -86,7 +82,6 @@ exports.getCart = (req, res) => {
       res.json({ status: 200, cart: result.cart });
     })
     .catch((err) => {
-      console.log(err);
       res.json({ status: 400, message: "Something went wrong" });
     });
 };

@@ -1,5 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const {
+  createUserSchema,
+  loginUserSchema,
+  addToCartSchema,
+} = require("../schema/user-schema");
+const {
+  validateRequestSchema,
+} = require("../middleware/validate-request-schema");
 
 const UsersControllers = require("../controllers/users");
 
@@ -8,21 +16,36 @@ const UsersControllers = require("../controllers/users");
  *
  * /users => POST method
  */
-router.post("/", UsersControllers.postUser);
+router.post(
+  "/",
+  createUserSchema,
+  validateRequestSchema,
+  UsersControllers.postUser
+);
 
 /**
  * Login user
  *
  * /users/login => POST method
  */
-router.post("/login", UsersControllers.postLoginUser);
+router.post(
+  "/login",
+  loginUserSchema,
+  validateRequestSchema,
+  UsersControllers.postLoginUser
+);
 
 /**
  * Add to cart
  *
  * /users/cart => POST method
  */
-router.post("/cart", UsersControllers.postCart);
+router.post(
+  "/cart",
+  addToCartSchema,
+  validateRequestSchema,
+  UsersControllers.postCart
+);
 
 /**
  * Add to cart

@@ -1,16 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const {
+  addProductSchema,
+  editProductSchema,
+} = require("../schema/product-schema");
+const {
+  validateRequestSchema,
+} = require("../middleware/validate-request-schema");
 
 const ProductsControllers = require("../controllers/products");
 
 /**
- * 1. Save product
- * 2. Edit product
+ * Save product
  * /products => POST method
- *
- * To edit product, just add "id" in body of request.
  */
-router.post("/", ProductsControllers.postProduct);
+router.post(
+  "/",
+  addProductSchema,
+  validateRequestSchema,
+  ProductsControllers.postProduct
+);
 
 /**
  * Get all products
@@ -28,7 +37,12 @@ router.get("/:productId", ProductsControllers.getProductById);
  * Edit product by product id
  * /products/edit/:productId => POST method
  */
-router.post("/edit/:productId", ProductsControllers.editProduct);
+router.post(
+  "/edit/:productId",
+  editProductSchema,
+  validateRequestSchema,
+  ProductsControllers.editProduct
+);
 
 /**
  * Delete product

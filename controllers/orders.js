@@ -11,7 +11,7 @@ exports.postOrder = (req, res) => {
       if (result.status === false) {
         res.json({ status: 400, message: result.message });
       } else {
-        res.json({ status: 200, message: "Order Created!" });
+        res.json({ status: 201, message: "Order Created!" });
       }
     })
     .catch(() => {

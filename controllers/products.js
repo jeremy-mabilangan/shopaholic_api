@@ -19,7 +19,7 @@ exports.postProduct = (req, res) => {
   product
     .save()
     .then(() => {
-      res.json({ status: 200, message: "Added Product Successfully" });
+      res.json({ status: 201, message: "Added Product Successfully" });
     })
     .catch(() => {
       res.json({ status: 400, message: "Failed to add product" });

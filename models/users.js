@@ -40,34 +40,16 @@ usersSchema.methods.createUser = function () {
   const email = this.email;
   const password = this.password;
 
-  return this.model("User")
-    .findOne({ email: email })
-    .then((user) => {
-      console.log("userSchema.methods.createUser => ", user);
+  return bcrypt.hash(password, 12).then((hashedPassword) => {
+    const payload = {
+      name,
+      email,
+      password: hashedPassword,
+      cart: null,
+    };
 
-      // Check if email is not existing
-      if (!user) {
-        return bcrypt.hash(password, 12).then((hashedPassword) => {
-          const payload = {
-            name,
-            email,
-            password: hashedPassword,
-            cart: null,
-          };
-
-          return this.model("User").create(payload);
-        });
-      } else {
-        // Return a message that says email is already taken.
-        return {
-          status: false,
-          message: "Email has already been taken.",
-        };
-      }
-    })
-    .catch((err) => {
-      console.log("userSchema.methods.createUser error => ", err);
-    });
+    return this.model("User").create(payload);
+  });
 };
 
 /**
@@ -233,6 +215,8 @@ usersSchema.static("fetchCart", function (userId) {
     .findById(userId)
     .populate("cart.items.product_id")
     .then((user) => {
+      console.log("userSchema.methods.fetchCart  => ", user);
+
       const cartItems = user.cart.items || [];
 
       // Reformat the data of items
