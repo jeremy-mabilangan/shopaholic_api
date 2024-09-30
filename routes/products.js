@@ -4,9 +4,7 @@ const {
   addProductSchema,
   editProductSchema,
 } = require("../schema/product-schema");
-const {
-  validateRequestSchema,
-} = require("../middleware/validate-request-schema");
+const validateRequestSchema = require("../middleware/validate-request-schema");
 
 const ProductsControllers = require("../controllers/products");
 

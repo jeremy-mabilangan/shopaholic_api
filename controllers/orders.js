@@ -4,7 +4,7 @@ const Order = require("../models/orders");
  * Controller for saving an order.
  */
 exports.postOrder = (req, res) => {
-  const userId = req.body.user_id;
+  const userId = req.userId;
 
   Order.createOrder(userId)
     .then((result) => {

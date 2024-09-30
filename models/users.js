@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { Schema, model } = mongoose;
 
 const usersSchema = new Schema({
@@ -66,7 +67,16 @@ usersSchema.static("loginUser", function (email, password) {
         return bcrypt.compare(password, user.password).then((result) => {
           // Check if password is correct
           if (result) {
-            return user;
+            // Generate a token
+            const token = jwt.sign(
+              {
+                email: email,
+                userId: user._id.toString(),
+              },
+              "s3c123t-K3Y"
+            );
+
+            return { user, token };
           } else {
             // Return a message that says password is incorrect.
             return {

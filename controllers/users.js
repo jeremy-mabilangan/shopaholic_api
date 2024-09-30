@@ -31,7 +31,7 @@ exports.postLoginUser = (req, res) => {
       if (result.status === false) {
         res.json({ status: 400, message: result.message });
       } else {
-        res.json({ status: 200, ...result._doc });
+        res.json({ status: 200, token: result.token });
       }
     })
     .catch(() => {
@@ -43,9 +43,10 @@ exports.postLoginUser = (req, res) => {
  * Controller for fetching user using user id.
  */
 exports.getUserById = (req, res) => {
-  const { userId } = req.params;
+  const userId = req.userId;
 
   User.findById(userId)
+    .select("-password, -_id")
     .then((user) => {
       res.send({ status: 200, user });
     })
@@ -58,8 +59,8 @@ exports.getUserById = (req, res) => {
  * Controller for add to cart.
  */
 exports.postCart = (req, res) => {
+  const userId = req.userId;
   const productId = req.body.product_id;
-  const userId = req.body.user_id;
   const quantity = req.body.quantity ?? null;
 
   User.updateCart(productId, userId, quantity)
@@ -75,7 +76,7 @@ exports.postCart = (req, res) => {
  * Controller for get cart.
  */
 exports.getCart = (req, res) => {
-  const userId = req.body.user_id;
+  const userId = req.userId;
 
   User.fetchCart(userId)
     .then((result) => {

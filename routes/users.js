@@ -5,9 +5,9 @@ const {
   loginUserSchema,
   addToCartSchema,
 } = require("../schema/user-schema");
-const {
-  validateRequestSchema,
-} = require("../middleware/validate-request-schema");
+
+const validateRequestSchema = require("../middleware/validate-request-schema");
+const isAuth = require("../middleware/is-auth");
 
 const UsersControllers = require("../controllers/users");
 
@@ -42,6 +42,7 @@ router.post(
  */
 router.post(
   "/cart",
+  isAuth,
   addToCartSchema,
   validateRequestSchema,
   UsersControllers.postCart
@@ -52,13 +53,13 @@ router.post(
  *
  * /users/cart => GET method
  */
-router.get("/cart", UsersControllers.getCart);
+router.get("/cart", isAuth, UsersControllers.getCart);
 
 /**
  * Get user by user id
  *
- * /users/:userId => GET method
+ * /users => GET method
  */
-router.get("/:userId", UsersControllers.getUserById);
+router.get("/", isAuth, UsersControllers.getUserById);
 
 module.exports = router;

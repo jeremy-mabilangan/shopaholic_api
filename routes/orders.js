@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const isAuth = require("../middleware/is-auth");
+
 const OrdersControllers = require("../controllers/orders");
 
 /**
@@ -8,6 +10,6 @@ const OrdersControllers = require("../controllers/orders");
  *
  * /orders => POST method
  */
-router.post("/", OrdersControllers.postOrder);
+router.post("/", isAuth, OrdersControllers.postOrder);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 
-function validateRequestSchema(req, res, next) {
+module.exports = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -8,6 +8,4 @@ function validateRequestSchema(req, res, next) {
   }
 
   next();
-}
-
-exports.validateRequestSchema = validateRequestSchema;
+};
