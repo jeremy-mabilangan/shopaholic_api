@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const env = require("dotenv");
 
 const mongoose = require("mongoose");
 
@@ -8,6 +9,7 @@ const productRoutes = require("./routes/products");
 const userRoutes = require("./routes/users");
 const orderRoutes = require("./routes/orders");
 
+env.config();
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -28,12 +30,10 @@ app.use("/users", userRoutes);
 app.use("/orders", orderRoutes);
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:lDC33kNMThkUqhXC@shopaholic.hqb68.mongodb.net/shopaholicdb?retryWrites=true&w=majority&appName=Shopaholic"
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to mongodb!");
-    app.listen(3000);
+    app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log("mongoose connect error => ", err);
