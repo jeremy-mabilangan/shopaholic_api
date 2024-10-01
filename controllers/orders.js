@@ -18,3 +18,18 @@ exports.postOrder = (req, res) => {
       res.json({ status: 400, message: "Failed to create an order" });
     });
 };
+
+/**
+ * Controller for fetch order.
+ */
+exports.getOrder = (req, res) => {
+  const userId = req.userId;
+
+  Order.find({ user_id: userId })
+    .then((result) => {
+      res.json({ status: 200, result: result || [] });
+    })
+    .catch(() => {
+      res.json({ status: 400, message: "Failed to get order." });
+    });
+};

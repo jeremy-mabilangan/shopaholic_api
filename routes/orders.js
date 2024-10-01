@@ -12,4 +12,11 @@ const OrdersControllers = require("../controllers/orders");
  */
 router.post("/", isAuth, OrdersControllers.postOrder);
 
+/**
+ * Create order
+ *
+ * /orders => GET method
+ */
+router.get("/", isAuth, OrdersControllers.getOrder);
+
 module.exports = router;

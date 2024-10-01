@@ -46,7 +46,7 @@ exports.getUserById = (req, res) => {
   const userId = req.userId;
 
   User.findById(userId)
-    .select("-password, -_id")
+    .select("-password -_id")
     .then((user) => {
       res.send({ status: 200, user });
     })
@@ -64,8 +64,12 @@ exports.postCart = (req, res) => {
   const quantity = req.body.quantity ?? null;
 
   User.updateCart(productId, userId, quantity)
-    .then(() => {
-      res.json({ status: 200, message: "Cart updated successfully" });
+    .then((result) => {
+      if (result) {
+        res.json({ status: 201, message: "Cart updated successfully" });
+      } else {
+        res.json({ status: 400, message: "Product does not exist." });
+      }
     })
     .catch(() => {
       res.json({ status: 400, message: "Something went wrong" });
