@@ -62,6 +62,6 @@ router.get("/cart", isAuth, isUser, UsersControllers.getCart);
  *
  * /users => GET method
  */
-router.get("/", isAuth, isUser, UsersControllers.getUserById);
+router.get("/", isAuth, UsersControllers.getUserById);
 
 module.exports = router;

@@ -25,19 +25,28 @@ node index.js
 
 ## API Endpoints
 
-| HTTP Method | Endpoint                       | Description                      |
-| ----------- | ------------------------------ | -------------------------------- |
-| `POST`      | `/users`                       | Create user                      |
-| `POST`      | `/users/login`                 | Login user                       |
-| `GET`       | `/users`                       | Get user details                 |
-| `POST`      | `/users/cart`                  | Add to cart or update cart items |
-| `GET`       | `/users/cart`                  | Get user cart                    |
-| `POST`      | `/products`                    | Add products                     |
-| `POST`      | `/products/edit/:product_id`   | Edit product details             |
-| `GET`       | `/products`                    | Get products list                |
-| `DELETE`    | `/products/delete/:product_id` | Delete product                   |
-| `POST`      | `/orders`                      | Create Order                     |
-| `GET`       | `/orders`                      | Get Order                        |
+| HTTP Method | Endpoint                       | User Role       | Description                      |
+| ----------- | ------------------------------ | --------------- | -------------------------------- |
+| `POST`      | `/users`                       |                 | Create user                      |
+| `POST`      | `/users/login`                 |                 | Login user                       |
+| `GET`       | `/users`                       | `user`          | Get user details                 |
+| `POST`      | `/users/cart`                  | `user`          | Add to cart or update cart items |
+| `GET`       | `/users/cart`                  | `user`          | Get user cart                    |
+| `POST`      | `/products`                    |                 | Add products                     |
+| `POST`      | `/products/edit/:product_id`   | `admin`         | Edit product details             |
+| `GET`       | `/products`                    |                 | Get products list                |
+| `DELETE`    | `/products/delete/:product_id` | `admin`         | Delete product                   |
+| `POST`      | `/orders`                      | `user`          | Create Order                     |
+| `GET`       | `/orders`                      | `admin or user` | Get Order                        |
+
+## User Role
+
+Accessing some API depends on the account role. The APIs below inside the table(Access) are the APIs that have a restriction and you can access only with the specific roles.
+
+| Code | Role  | Can Access                                      |
+| ---- | ----- | ----------------------------------------------- |
+| R1   | admin | Add products, Edit products, Delete products    |
+| R2   | user  | Add to cart/Update cart, Get Cart, Create Order |
 
 ## Create User API
 
@@ -49,7 +58,8 @@ node index.js
   "name": "John Doe",
   "email": "johndoe@gmail.com",
   "password": "123456",
-  "confirmPassword": "123456"
+  "confirmPassword": "123456",
+  "role": "R1" // Check the user role above.
 }
 ```
 
