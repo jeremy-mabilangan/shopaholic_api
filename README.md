@@ -16,7 +16,14 @@ git clone https://github.com/jeremy-mabilangan/shopaholic_api.git
 npm install
 ```
 
-- Create and use the MongoDB cluster in the index.js file. Inside mongoose.connect("")
+- Create .env file
+- Create a MongoDB cluster and paste it into the .env file
+
+```
+MONGO_URL="mongodb_cluster_url"
+PORT=3000
+```
+
 - Run the project
 
 ```
