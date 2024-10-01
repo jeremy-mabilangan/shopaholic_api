@@ -5,6 +5,7 @@ const {
   editProductSchema,
 } = require("../schema/product-schema");
 const validateRequestSchema = require("../middleware/validate-request-schema");
+const isAuth = require("../middleware/is-auth");
 const isAdmin = require("../middleware/is-admin");
 
 const ProductsControllers = require("../controllers/products");
@@ -15,6 +16,7 @@ const ProductsControllers = require("../controllers/products");
  */
 router.post(
   "/",
+  isAuth,
   isAdmin,
   addProductSchema,
   validateRequestSchema,
@@ -39,6 +41,7 @@ router.get("/:productId", ProductsControllers.getProductById);
  */
 router.post(
   "/edit/:productId",
+  isAuth,
   isAdmin,
   editProductSchema,
   validateRequestSchema,
@@ -51,6 +54,7 @@ router.post(
  */
 router.delete(
   "/delete/:productId",
+  isAuth,
   isAdmin,
   ProductsControllers.deleteProductById
 );

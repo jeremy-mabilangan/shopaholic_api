@@ -6,7 +6,7 @@ const { body, param } = require("express-validator");
 const addProductSchema = [
   /**
    * Check if string.
-   * Minimun 2 characters.
+   * Minimum 2 characters.
    */
   body("name")
     .isString()
@@ -24,7 +24,7 @@ const addProductSchema = [
   body("price").isFloat().withMessage("Please enter a valid price."),
   /**
    * Check if string.
-   * Minimun 5 characters.
+   * Minimum 5 characters.
    * Maximum 400 characters.
    */
   body("description")
