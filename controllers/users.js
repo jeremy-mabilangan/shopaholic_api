@@ -7,7 +7,8 @@ exports.postUser = (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const user = new User({ name, email, password });
+  const role = req.body.role || "";
+  const user = new User({ name, email, password, role });
 
   user
     .createUser()

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { USER_ROLES } = require("../util/enum");
 const { Schema, model } = mongoose;
 
 const usersSchema = new Schema({
@@ -15,6 +16,10 @@ const usersSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  role: {
+    type: String,
+    required: false,
   },
   cart: {
     items: [
@@ -40,12 +45,14 @@ usersSchema.methods.createUser = function () {
   const name = this.name;
   const email = this.email;
   const password = this.password;
+  const role = USER_ROLES[this.role] ? USER_ROLES[this.role] : USER_ROLES.R2;
 
   return bcrypt.hash(password, 12).then((hashedPassword) => {
     const payload = {
       name,
       email,
       password: hashedPassword,
+      role: role,
       cart: null,
     };
 
@@ -71,6 +78,7 @@ usersSchema.static("loginUser", function (email, password) {
             const token = jwt.sign(
               {
                 email: email,
+                role: user.role,
                 userId: user._id.toString(),
               },
               "s3c123t-K3Y"

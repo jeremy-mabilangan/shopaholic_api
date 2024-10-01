@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const isAuth = require("../middleware/is-auth");
+const isUser = require("../middleware/is-user");
 
 const OrdersControllers = require("../controllers/orders");
 
@@ -10,10 +11,10 @@ const OrdersControllers = require("../controllers/orders");
  *
  * /orders => POST method
  */
-router.post("/", isAuth, OrdersControllers.postOrder);
+router.post("/", isAuth, isUser, OrdersControllers.postOrder);
 
 /**
- * Create order
+ * Get s
  *
  * /orders => GET method
  */
