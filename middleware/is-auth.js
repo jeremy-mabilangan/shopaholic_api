@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   let decodedToken;
 
   try {
-    decodedToken = jwt.verify(token, "s3c123t-K3Y");
+    decodedToken = jwt.verify(token, process.env.SECRET_KEY);
   } catch (err) {
     return res.status(500).json({ status: 500, ...err });
   }

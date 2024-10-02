@@ -81,7 +81,7 @@ usersSchema.static("loginUser", function (email, password) {
                 role: user.role,
                 userId: user._id.toString(),
               },
-              "s3c123t-K3Y"
+              process.env.SECRET_KEY
             );
 
             return { user, token };

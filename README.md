@@ -22,6 +22,7 @@ npm install
 ```
 MONGO_URL="mongodb_cluster_url"
 PORT=3000
+SECRET_KEY=sEcrEt-k3y
 ```
 
 - Run the project
