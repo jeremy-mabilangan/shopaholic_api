@@ -6,7 +6,7 @@ export default (req, res, next) => {
 
   if (!authHeader) {
     return res
-      .status(401)
+      .status(403)
       .json({ success: false, message: "Not authenticated." });
   }
 
@@ -16,12 +16,14 @@ export default (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, config.JWT_SECRET_KEY);
   } catch (err) {
-    return res.status(500).json({ success: false, ...err });
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error." });
   }
 
   if (!decodedToken) {
     return res
-      .status(401)
+      .status(403)
       .json({ success: false, message: "Not authenticated." });
   }
 

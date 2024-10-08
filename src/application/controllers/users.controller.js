@@ -105,7 +105,7 @@ export default class UserController {
 
     // Get user details
     const user = await this.repository.findOne({ _id: userId });
-    console.log("user ", user);
+
     if (user) {
       // Cart items
       const cart = user?.cart || [];

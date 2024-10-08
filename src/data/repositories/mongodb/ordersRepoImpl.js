@@ -2,8 +2,10 @@ import Orders, { Mapper } from "../../models/orders.model.js";
 
 export default class OrdersRepoImpl {
   /**
+   * Create order
+   *
    * @param { userId, status, totalAmount, items } payload
-   * @returns true | false
+   * @returns boolean
    */
   create = async (payload) => {
     const doc = await Orders.create(Mapper.toDtoCreation(payload));
@@ -11,6 +13,8 @@ export default class OrdersRepoImpl {
   };
 
   /**
+   * Get all orders
+   *
    * @returns Users entities
    */
   findAll = async () => {
@@ -19,6 +23,8 @@ export default class OrdersRepoImpl {
   };
 
   /**
+   * Get all orders of the user
+   *
    * @param {string} userId - User id from token
    * @returns User entities
    */
@@ -28,10 +34,11 @@ export default class OrdersRepoImpl {
   };
 
   /**
+   * Update orders entity
    *
    * @param { object } filter
    * @param { object } payload
-   * @returns User entity
+   * @returns Order entities
    */
   updateOne = async (filter, payload) => {
     const doc = await Orders.findOneAndUpdate(filter, payload, {

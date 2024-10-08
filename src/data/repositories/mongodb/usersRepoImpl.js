@@ -2,10 +2,12 @@ import User, { Mapper } from "../../models/users.model.js";
 
 export default class UsersRepoImpl {
   /**
+   * Create user
+   *
    * @param { name = string, email = string,
    *          password = hash<string>, role = "admin" | "user",
    *          cart = null } payload
-   * @returns true | false
+   * @returns boolean
    */
   create = async (payload) => {
     const doc = await User.create(Mapper.toDtoUserCreation(payload));
@@ -21,7 +23,9 @@ export default class UsersRepoImpl {
   };
 
   /**
-   * @param { string } userId - User id
+   * Get user with/without formatted cart
+   *
+   * @param { string } userId
    * @returns User entities | null
    */
   findById = async (userId, requestFrom = "") => {
@@ -44,6 +48,8 @@ export default class UsersRepoImpl {
   };
 
   /**
+   * Get user
+   *
    * @param { object } query
    * @returns User Entities | null
    */
@@ -54,6 +60,7 @@ export default class UsersRepoImpl {
   };
 
   /**
+   * Update user
    *
    * @param { object } filter
    * @param { object } payload

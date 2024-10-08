@@ -41,13 +41,36 @@ export default class OrderController {
           cartItems: cartPayload,
         };
 
-        await this.orderRepository.create(payload);
-        await this.userRepository.updateOne({ _id: userId }, { cart: null });
+        this.orderRepository
+          .create(payload)
+          .then(async (result) => {
+            console.log(
+              "OrderController postOrder createOrder result => ",
+              result
+            );
 
-        return res.status(200).json({
-          success: true,
-          message: "Order created successfully.",
-        });
+            const clearCartRes = await this.userRepository.updateOne(
+              { _id: userId },
+              { cart: null }
+            );
+            console.log(
+              "OrderController postOrder clearCartRes result => ",
+              clearCartRes
+            );
+
+            res.status(201).json({
+              success: true,
+              message: "Order created successfully.",
+            });
+          })
+          .catch((err) => {
+            console.log("OrderController postOrder createOrder error => ", err);
+
+            res.status(400).json({
+              success: false,
+              message: "Failed to create order.",
+            });
+          });
       } else {
         return res.status(400).json({
           success: false,
@@ -75,15 +98,19 @@ export default class OrderController {
       // Get orders by user
       fn = this.orderRepository.findAllByUserId(userId);
     } else {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         message: "Unauthorized.",
       });
     }
 
     fn.then((result) => {
+      console.log("OrderController getOrder result => ", result);
+
       res.status(200).json({ success: true, result: result || [] });
-    }).catch(() => {
+    }).catch((err) => {
+      console.log("OrderController getOrder error => ", err);
+
       res.status(400).json({
         success: false,
         message: "Failed to get order.",
@@ -106,7 +133,6 @@ export default class OrderController {
       })
       .catch((err) => {
         console.log("OrderController updateOrderStatus error => ", err);
-
         res
           .status(400)
           .json({ success: false, message: "Failed to update status." });
