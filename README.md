@@ -28,7 +28,7 @@ JWT_SECRET_KEY=sEcrEt-k3y
 - Run the project
 
 ```
-node index.js
+npm run dev
 ```
 
 ## API Endpoints
