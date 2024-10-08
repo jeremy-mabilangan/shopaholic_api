@@ -53,7 +53,6 @@ export default class UserController {
   loginUser = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    let response;
 
     this.repository
       .findOne({ email })
@@ -70,32 +69,26 @@ export default class UserController {
                 userId: user.id,
               });
 
-              response = { success: true, status: 200, token };
+              res.status(200).json({ success: true, token });
             } else {
               // Return a message that says password is incorrect.
-              response = {
+              res.status(400).json({
                 success: false,
-                status: 400,
                 message: "Password is incorrect.",
-              };
+              });
             }
-
-            res.status(response.status).json(response);
           });
         } else {
           // Return a message that says user doesn't exist.
           res.status(400).json({
             success: false,
-            status: 400,
             message: "User not found.",
           });
         }
       })
       .catch((err) => {
         console.log("UserController loginUser error => ", err);
-        res
-          .status(400)
-          .json({ success: false, status: 400, message: "Login failed." });
+        res.status(400).json({ success: false, message: "Login failed." });
       });
   };
 

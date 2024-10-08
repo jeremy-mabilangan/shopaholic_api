@@ -78,7 +78,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 // Success
 {
     "success": true,
-    "message": "Added User Successfully"
+    "message": "User added successfully."
 }
 
 // Error
@@ -177,7 +177,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 {
   "success": true,
-  "message": "Cart updated successfully"
+  "message": "Cart updated successfully."
 }
 ```
 
@@ -225,7 +225,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 {
   "success": true,
-  "message": "Added Product Successfully"
+  "message": "Product added successfully."
 }
 ```
 
@@ -295,7 +295,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 {
   "success": true,
-  "message": "Deleted Successfully"
+  "message": "Product deleted successfully."
 }
 ```
 
@@ -334,7 +334,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 {
   "success": true,
-  "message": "Order Created!"
+  "message": "Order created successfully."
 }
 ```
 
@@ -396,6 +396,6 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 {
   "success": true,
-  "message": "Order status updated successfully"
+  "message": "Order status updated successfully."
 }
 ```

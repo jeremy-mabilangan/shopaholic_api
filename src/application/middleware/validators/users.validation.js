@@ -15,7 +15,7 @@ const createUserSchema = [
     .withMessage("Please enter a valid email.")
     .custom(async (value) => {
       const user = await User.findOne({ email: value });
-      if (user) return Promise.reject("Email is already been taken.");
+      if (user) return Promise.reject("Email is already exists.");
     })
     .normalizeEmail(),
   /**

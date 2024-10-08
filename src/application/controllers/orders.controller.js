@@ -77,19 +77,15 @@ export default class OrderController {
     } else {
       return res.status(400).json({
         success: false,
-        status: 400,
         message: "Unauthorized.",
       });
     }
 
     fn.then((result) => {
-      res
-        .status(200)
-        .json({ success: true, status: 200, result: result || [] });
+      res.status(200).json({ success: true, result: result || [] });
     }).catch(() => {
       res.status(400).json({
         success: false,
-        status: 400,
         message: "Failed to get order.",
       });
     });

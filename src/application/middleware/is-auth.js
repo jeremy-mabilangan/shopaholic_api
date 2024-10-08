@@ -7,7 +7,7 @@ export default (req, res, next) => {
   if (!authHeader) {
     return res
       .status(401)
-      .json({ success: false, status: 401, message: "Not authenticated." });
+      .json({ success: false, message: "Not authenticated." });
   }
 
   const token = authHeader.split(" ")[1];
@@ -16,13 +16,13 @@ export default (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, config.JWT_SECRET_KEY);
   } catch (err) {
-    return res.status(500).json({ success: false, status: 500, ...err });
+    return res.status(500).json({ success: false, ...err });
   }
 
   if (!decodedToken) {
     return res
       .status(401)
-      .json({ success: false, status: 401, message: "Not authenticated." });
+      .json({ success: false, message: "Not authenticated." });
   }
 
   req.userId = decodedToken.userId;
