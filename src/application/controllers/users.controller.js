@@ -37,11 +37,13 @@ export default class UserController {
         console.log("UserController createUser result => ", result);
         res
           .status(201)
-          .json({ status: 201, message: "Added User Successfully" });
+          .json({ success: true, message: "User added successfully." });
       })
       .catch((err) => {
         console.log("UserController createUser error => ", err);
-        res.status(400).json({ status: 400, message: "Failed to add user" });
+        res
+          .status(400)
+          .json({ success: false, message: "Failed to add user." });
       });
   };
 
@@ -85,7 +87,7 @@ export default class UserController {
           res.status(400).json({
             success: false,
             status: 400,
-            message: "User doesn't exist.",
+            message: "User not found.",
           });
         }
       })
@@ -93,7 +95,7 @@ export default class UserController {
         console.log("UserController loginUser error => ", err);
         res
           .status(400)
-          .json({ success: false, status: 400, message: "Failed to login" });
+          .json({ success: false, status: 400, message: "Login failed." });
       });
   };
 
@@ -208,7 +210,7 @@ export default class UserController {
 
           res.status(201).json({
             success: true,
-            message: "Cart updated successfully",
+            message: "Cart updated successfully.",
             cart: result.cart,
           });
         })
@@ -217,13 +219,13 @@ export default class UserController {
 
           res.status(400).json({
             success: false,
-            message: "Failed to update cart",
+            message: "Failed to update cart.",
           });
         });
     } else {
       return res.status(400).json({
         success: false,
-        message: "Something went wrong",
+        message: "Something went wrong.",
       });
     }
   };
@@ -248,7 +250,7 @@ export default class UserController {
 
         res.status(400).json({
           success: false,
-          message: "Failed to get user details",
+          message: "Failed to get user details.",
         });
       });
   };
@@ -279,7 +281,7 @@ export default class UserController {
 
         res.status(400).json({
           success: false,
-          message: "Failed to get cart",
+          message: "Failed to get cart.",
         });
       });
   };

@@ -46,7 +46,7 @@ node index.js
 | `DELETE`    | `/products/delete/:product_id` | `admin`       | Delete product                   |
 | `POST`      | `/orders`                      | `user`        | Create Order                     |
 | `GET`       | `/orders`                      | `admin, user` | Get Order                        |
-| `PUT`       | `/orders/orderId`              | `admin`       | Update Order Status              |
+| `PUT`       | `/orders/:orderId`             | `admin`       | Update Order Status              |
 
 ## User Role
 
@@ -77,14 +77,14 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 // Success
 {
-    "status": 201,
+    "success": true,
     "message": "Added User Successfully"
 }
 
 // Error
 // Email is already been taken
 {
-    "status": 422,
+    "success": false,
     "errors": [
         {
             "type": "field",
@@ -113,7 +113,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "token": "exampletokenstring"
 }
 ```
@@ -127,7 +127,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "user": {
     "cart": {
       "items": [
@@ -176,7 +176,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "message": "Cart updated successfully"
 }
 ```
@@ -190,7 +190,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "cart": {
     "items": [
       {
@@ -224,7 +224,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 201,
+  "success": true,
   "message": "Added Product Successfully"
 }
 ```
@@ -237,7 +237,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "products": [
     {
       "id": "123",
@@ -275,7 +275,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "product": {
     "_id": "123",
     "name": "Item 1",
@@ -290,15 +290,14 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 - `DELETE products/delete/66dffa877e4b2bf8a2648afb`
 
-````
 - Response
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "message": "Deleted Successfully"
 }
-````
+```
 
 ## Create Order API
 
@@ -307,35 +306,37 @@ Accessing some APIs depend on the account role. Here are the available roles:
   - Authorization: Bearer {token}
 - Payload
 
-````json
+```json
 {
-    "cart": [
-        {
-            "product_id": "123",
-            "name": "Item 1",
-            "price": 50,
-            "description": "Item 1",
-            "imageUrl": "https://image.com/item1.jpg",
-            "quantity": 5
-        },
-        {
-            "product_id": "124",
-            "name": "Item 2",
-            "price": 50,
-            "description": "Item 2",
-            "imageUrl": "https://image.com/item2.jpg",
-            "quantity": 6
-        }
-    ]
+  "cart": [
+    {
+      "product_id": "123",
+      "name": "Item 1",
+      "price": 50,
+      "description": "Item 1",
+      "imageUrl": "https://image.com/item1.jpg",
+      "quantity": 5
+    },
+    {
+      "product_id": "124",
+      "name": "Item 2",
+      "price": 50,
+      "description": "Item 2",
+      "imageUrl": "https://image.com/item2.jpg",
+      "quantity": 6
+    }
+  ]
 }
+```
+
 - Response
 
 ```json
 {
-  "status": 201,
+  "success": true,
   "message": "Order Created!"
 }
-````
+```
 
 ## Get Order API
 
@@ -346,7 +347,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "status": 200,
+  "success": true,
   "result": [
     {
       "_id": "555",

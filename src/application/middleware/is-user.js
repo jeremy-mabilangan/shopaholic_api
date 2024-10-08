@@ -7,7 +7,9 @@ export default (req, res, next) => {
   const role = req.role;
 
   if (role !== USER_ROLES.R2) {
-    return res.status(401).json({ status: 401, message: "Role is invalid." });
+    return res
+      .status(401)
+      .json({ success: false, status: 401, message: "Unauthorized." });
   }
 
   next();

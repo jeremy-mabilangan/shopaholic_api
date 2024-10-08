@@ -13,14 +13,14 @@ export default class ProductsController {
 
         res
           .status(201)
-          .json({ success: true, message: "Added Product Successfully" });
+          .json({ success: true, message: "Product added successfully." });
       })
       .catch((err) => {
         console.log("ProductsController postProduct error => ", err);
 
         res
           .status(400)
-          .json({ success: false, message: "Failed to add product" });
+          .json({ success: false, message: "Failed to add product." });
       });
   };
 
@@ -30,14 +30,14 @@ export default class ProductsController {
       .then((products) => {
         console.log("ProductsController getProducts result => ", products);
 
-        res.status(201).json({ status: 200, products });
+        res.status(201).json({ success: true, products });
       })
       .catch((err) => {
         console.log("ProductsController getProducts error => ", err);
 
         res
           .status(400)
-          .json({ status: 400, message: "Failed to get all products" });
+          .json({ success: false, message: "Failed to get all products." });
       });
   };
 
@@ -56,7 +56,7 @@ export default class ProductsController {
 
         res
           .status(400)
-          .json({ success: false, message: "Failed to get product" });
+          .json({ success: false, message: "Failed to get product." });
       });
   };
 
@@ -67,13 +67,17 @@ export default class ProductsController {
     this.repository
       .updateOne({ _id: productId }, payload)
       .then((product) => {
-        res.status(201).json({ success: true, product });
+        res.status(201).json({
+          success: true,
+          message: "Product updated successfully.",
+          product,
+        });
       })
       .catch((err) => {
         console.log("ProductsController editProduct error => ", err);
         res
           .status(400)
-          .json({ success: false, message: "Failed to update product" });
+          .json({ success: false, message: "Failed to update product." });
       });
   };
 
@@ -84,15 +88,21 @@ export default class ProductsController {
       .findByIdAndDelete(productId)
       .then((result) => {
         console.log("ProductsController deleteProductById result => ", result);
-        res
-          .status(200)
-          .json({ success: true, message: "Deleted Successfully" });
+        if (result) {
+          res
+            .status(200)
+            .json({ success: true, message: "Product deleted successfully." });
+        } else {
+          res
+            .status(400)
+            .json({ success: false, message: "Product not found." });
+        }
       })
       .catch((err) => {
         console.log("ProductsController deleteProductById error => ", err);
         res
           .status(400)
-          .json({ success: false, message: "Failed to delete product" });
+          .json({ success: false, message: "Failed to delete product." });
       });
   };
 }

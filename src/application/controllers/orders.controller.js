@@ -46,18 +46,18 @@ export default class OrderController {
 
         return res.status(200).json({
           success: true,
-          message: "Order created successfully",
+          message: "Order created successfully.",
         });
       } else {
         return res.status(400).json({
           success: false,
-          message: "Invalid items",
+          message: "Invalid items.",
         });
       }
     } else {
       return res.status(400).json({
         success: false,
-        message: "Cart is empty",
+        message: "Cart is empty.",
       });
     }
   };
@@ -78,7 +78,7 @@ export default class OrderController {
       return res.status(400).json({
         success: false,
         status: 400,
-        message: "Role is invalid.",
+        message: "Unauthorized.",
       });
     }
 
@@ -103,19 +103,17 @@ export default class OrderController {
       .updateOne({ _id: orderId }, { status: status })
       .then((result) => {
         console.log("OrderController updateOrderStatus result => ", result);
-        res
-          .status(201)
-          .json({
-            success: true,
-            message: "Order status updated successfully",
-          });
+        res.status(201).json({
+          success: true,
+          message: "Order status updated successfully.",
+        });
       })
       .catch((err) => {
         console.log("OrderController updateOrderStatus error => ", err);
 
         res
           .status(400)
-          .json({ success: false, message: "Failed to update status" });
+          .json({ success: false, message: "Failed to update status." });
       });
   };
 }

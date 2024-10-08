@@ -60,7 +60,7 @@ const loginUserSchema = [
    */
   body("password")
     .isLength({ min: 6 })
-    .withMessage("Please enter a valid password")
+    .withMessage("Please enter a valid password.")
     .trim(),
 ];
 
