@@ -1,6 +1,7 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+import config from "../../core/utils/config.js";
 
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   const authHeader = req.get("Authorization");
 
   if (!authHeader) {
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
   let decodedToken;
 
   try {
-    decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    decodedToken = jwt.verify(token, config.JWT_SECRET_KEY);
   } catch (err) {
     return res.status(500).json({ status: 500, ...err });
   }
@@ -22,5 +23,6 @@ module.exports = (req, res, next) => {
 
   req.userId = decodedToken.userId;
   req.role = decodedToken.role;
+
   next();
 };

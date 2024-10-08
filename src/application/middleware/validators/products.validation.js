@@ -1,4 +1,4 @@
-const { body, param } = require("express-validator");
+import { body, param } from "express-validator";
 
 /**
  * Add product
@@ -39,12 +39,7 @@ const addProductSchema = [
  * Edit product
  */
 const editProductSchema = [
-  //   param("productId")
-  //     .exists()
-  //     .withMessage(":productId should not be empty")
-  //     .trim(),
   ...addProductSchema, // Use the schema of add product
 ];
 
-exports.addProductSchema = addProductSchema;
-exports.editProductSchema = editProductSchema;
+export { addProductSchema, editProductSchema };

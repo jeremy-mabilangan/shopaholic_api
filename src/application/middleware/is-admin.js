@@ -1,9 +1,9 @@
-const { USER_ROLES } = require("../util/enum");
+import { USER_ROLES } from "../../core/enums/roles.js";
 
 /**
  * Validate if user has admin role.
  */
-module.exports = (req, res, next) => {
+export default async (req, res, next) => {
   const role = req.role;
 
   if (role !== USER_ROLES.R1) {

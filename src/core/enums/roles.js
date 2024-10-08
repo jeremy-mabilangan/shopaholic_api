@@ -9,4 +9,4 @@ const USER_ROLES = Object.freeze({
   R2: "user",
 });
 
-exports.USER_ROLES = USER_ROLES;
+export { USER_ROLES };

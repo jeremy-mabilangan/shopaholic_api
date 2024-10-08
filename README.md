@@ -20,9 +20,9 @@ npm install
 - Create a MongoDB cluster and paste it into the .env file
 
 ```
-MONGO_URL="mongodb_cluster_url"
+MONGODB_URL="mongodb_cluster_url"
 PORT=3000
-SECRET_KEY=sEcrEt-k3y
+JWT_SECRET_KEY=sEcrEt-k3y
 ```
 
 - Run the project
@@ -46,6 +46,7 @@ node index.js
 | `DELETE`    | `/products/delete/:product_id` | `admin`       | Delete product                   |
 | `POST`      | `/orders`                      | `user`        | Create Order                     |
 | `GET`       | `/orders`                      | `admin, user` | Get Order                        |
+| `PUT`       | `/orders/orderId`              | `admin`       | Update Order Status              |
 
 ## User Role
 
@@ -131,9 +132,9 @@ Accessing some APIs depend on the account role. Here are the available roles:
     "cart": {
       "items": [
         {
-          "product_id": "66ea821cd96c8bf3b4e3cc1c",
+          "product_id": "123",
           "quantity": 1,
-          "_id": "66fba25860df1f0efc2a4860"
+          "_id": "989"
         }
       ]
     },
@@ -154,19 +155,19 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ```json
 // Add to cart or increment the quantity
 {
-    "product_id": "66ea821cd96c8bf3b4e3cc1c"
+    "product_id": "123"
 }
 
 // Instant update quantity
 // Example: From 1 quantity to 5 quantity
 {
-    "product_id": "66ea821cd96c8bf3b4e3cc1c",
+    "product_id": "123",
     "quantity": 5
 }
 
 // Remove to cart
 {
-    "product_id": "66ea821cd96c8bf3b4e3cc1c",
+    "product_id": "123",
     "quantity": 0
 }
 ```
@@ -193,12 +194,12 @@ Accessing some APIs depend on the account role. Here are the available roles:
   "cart": {
     "items": [
       {
-        "product_id": "66ea821cd96c8bf3b4e3cc1c",
-        "name": "Chicken",
-        "price": 91,
-        "description": "Chickenjoy",
-        "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg",
-        "quantity": 1
+        "product_id": "123",
+        "name": "Item 1",
+        "price": 50,
+        "description": "Item 1",
+        "imageUrl": "https://image.com/item1.jpg",
+        "quantity": 5
       }
     ]
   }
@@ -212,10 +213,10 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ```json
 {
-  "name": "Chicken",
-  "description": "Chickenjoy",
-  "price": "91",
-  "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg"
+  "name": "Item 1",
+  "price": 50,
+  "description": "Item 1",
+  "imageUrl": "https://image.com/item1.jpg"
 }
 ```
 
@@ -239,20 +240,18 @@ Accessing some APIs depend on the account role. Here are the available roles:
   "status": 200,
   "products": [
     {
-      "_id": "66dff75806841fab29853f7b",
-      "name": "Spaghetti",
-      "price": 79,
-      "description": "Jolly Spaghetti",
-      "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.jollibeefoods.com%2Fproducts%2Fjolly-spaghetti&psig=AOvVaw1txgfkPiU_dwInWFFw1y2I&ust=1724224908041000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCOjesruEg4gDFQAAAAAdAAAAABAE",
-      "__v": 0
+      "id": "123",
+      "name": "Item 1",
+      "price": 50,
+      "description": "Item 1",
+      "imageUrl": "https://image.com/item1.jpg"
     },
     {
-      "_id": "66fba6f7ae68c075ed2bedd9",
-      "name": "Chicken",
-      "price": 95,
-      "description": "Chickenjoy",
-      "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg",
-      "__v": 0
+      "id": "124",
+      "name": "Item 2",
+      "price": 50,
+      "description": "Item 2",
+      "imageUrl": "https://image.com/item2.jpg"
     }
   ]
 }
@@ -260,15 +259,15 @@ Accessing some APIs depend on the account role. Here are the available roles:
 
 ## Edit Products API
 
-- `POST /products/edit/66ea821cd96c8bf3b4e3cc1c`
+- `POST /products/edit/123`
 - Payload
 
 ```json
 {
-  "name": "Chicken",
-  "description": "Chickenjoy",
-  "price": "99",
-  "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg"
+  "name": "Item 1",
+  "price": 50,
+  "description": "Item 1",
+  "imageUrl": "https://image.com/item1.jpg"
 }
 ```
 
@@ -278,12 +277,11 @@ Accessing some APIs depend on the account role. Here are the available roles:
 {
   "status": 200,
   "product": {
-    "_id": "66ea821cd96c8bf3b4e3cc1c",
-    "name": "Chicken",
-    "price": 99,
-    "description": "Chickenjoy",
-    "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg",
-    "__v": 0
+    "_id": "123",
+    "name": "Item 1",
+    "price": 50,
+    "description": "Item 1",
+    "imageUrl": "https://image.com/item1.jpg"
   }
 }
 ```
@@ -291,6 +289,8 @@ Accessing some APIs depend on the account role. Here are the available roles:
 ## Delete Products API
 
 - `DELETE products/delete/66dffa877e4b2bf8a2648afb`
+
+````
 - Response
 
 ```json
@@ -298,13 +298,36 @@ Accessing some APIs depend on the account role. Here are the available roles:
   "status": 200,
   "message": "Deleted Successfully"
 }
-```
+````
 
 ## Create Order API
 
 - `POST /orders`
 - Headers
   - Authorization: Bearer {token}
+- Payload
+
+````json
+{
+    "cart": [
+        {
+            "product_id": "123",
+            "name": "Item 1",
+            "price": 50,
+            "description": "Item 1",
+            "imageUrl": "https://image.com/item1.jpg",
+            "quantity": 5
+        },
+        {
+            "product_id": "124",
+            "name": "Item 2",
+            "price": 50,
+            "description": "Item 2",
+            "imageUrl": "https://image.com/item2.jpg",
+            "quantity": 6
+        }
+    ]
+}
 - Response
 
 ```json
@@ -312,7 +335,7 @@ Accessing some APIs depend on the account role. Here are the available roles:
   "status": 201,
   "message": "Order Created!"
 }
-```
+````
 
 ## Get Order API
 
@@ -326,30 +349,52 @@ Accessing some APIs depend on the account role. Here are the available roles:
   "status": 200,
   "result": [
     {
-      "_id": "66fbb7e00faea05073d6af02",
-      "user_id": "66e3f1c421d0824656ae487f",
+      "_id": "555",
+      "user_id": "6666",
       "status": "pending",
-      "total_amount": 194,
+      "total_amount": 550,
       "items": [
         {
-          "name": "Chicken",
-          "price": 95,
-          "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg",
-          "description": "Chickenjoy",
-          "quantity": 3,
-          "_id": "66fbb7e00faea05073d6af03"
+          "product_id": "123",
+          "name": "Item 1",
+          "price": 50,
+          "description": "Item 1",
+          "imageUrl": "https://image.com/item1.jpg",
+          "quantity": 5
         },
         {
-          "name": "Chicken",
-          "price": 99,
-          "imageUrl": "https://f4.bcbits.com/img/a2002470507_16.jpg",
-          "description": "Chickenjoy",
-          "quantity": 1,
-          "_id": "66fbb7e00faea05073d6af04"
+          "product_id": "124",
+          "name": "Item 2",
+          "price": 50,
+          "description": "Item 2",
+          "imageUrl": "https://image.com/item2.jpg",
+          "quantity": 6
         }
       ],
       "__v": 0
     }
   ]
+}
+```
+
+## Update Order Status API
+
+- `PUT /orders/:orderId`
+- Headers
+  - Authorization: Bearer {token}
+- Payload
+
+```json
+{
+  "status": "preparing"
+}
+```
+
+- Response
+
+```json
+{
+  "success": true,
+  "message": "Order status updated successfully"
 }
 ```

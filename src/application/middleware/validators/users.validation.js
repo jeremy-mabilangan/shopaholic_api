@@ -1,5 +1,5 @@
-const { body } = require("express-validator");
-const User = require("../models/users");
+import { body } from "express-validator";
+import User from "../../../data/models/users.model.js";
 
 /**
  * Create user
@@ -13,10 +13,9 @@ const createUserSchema = [
   body("email")
     .isEmail()
     .withMessage("Please enter a valid email.")
-    .custom((value) => {
-      return User.findOne({ email: value }).then((user) => {
-        if (user) return Promise.reject("Email is already been taken.");
-      });
+    .custom(async (value) => {
+      const user = await User.findOne({ email: value });
+      if (user) return Promise.reject("Email is already been taken.");
     })
     .normalizeEmail(),
   /**
@@ -78,6 +77,4 @@ const addToCartSchema = [
     .withMessage("Please enter a valid quantity."),
 ];
 
-exports.createUserSchema = createUserSchema;
-exports.loginUserSchema = loginUserSchema;
-exports.addToCartSchema = addToCartSchema;
+export { createUserSchema, loginUserSchema, addToCartSchema };
